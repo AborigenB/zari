@@ -1,0 +1,1 @@
+<a href="{{$href??'#'}}" class="p-5 px-7 bg-white/15 border border-white rounded-full backdrop-blur-sm font-montserrat font-normal text-base leading-5.5 tracking-widest text-white">{{$value??''}}</a>

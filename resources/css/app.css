@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@source "../views";
+
+@font-face {
+    font-family: "montserat";
+    src: url('/public/assets/font/Montserrat-Black.ttf');
+}
+
+@font-face {
+    font-family: "unbouded";
+    src: url('/public/assets/font/Unbounded-Black.ttf');
+}
+
+@font-face {
+    font-family: "montseratblack";
+    src: url('/public/assets/font/Montserrat-Black.ttf');
+}
+
+@font-face {
+    font-family: "montseratmedium";
+    src: url('/public/assets/font/Montserrat-Medium.ttf');
+}
+
+@font-face {
+    font-family: "notos";
+    src: url('/public/assets/font/NotoSerifKR-Regular.otf');
+}
+
+@font-face {
+    font-family: "nikos";
+    src: url('/public/assets/font/NikkyouSans.ttf');
+}
+
+@theme {
+    --header-bg-url: '';
+    --font-montserrat: "montserat"; 
+    --font-unbouded: "unbouded"; 
+    --font-montseratblack: "montseratblack"; 
+    --font-montserrat: "montseratmedium"; 
+    --main-bg-color: #F1E2E2;
+    --font-noto-serif-kr: 'notos';
+    --font-nikyousans: 'nikos';
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.current{
+    transform: scale(1.1);
+}
+
+.previous{
+    transform: translateX(-110%);
+}
+
+.next{
+    transform: translateX(120%);
+}
+
+.another{
+    /* visibility: hidden; */
+    opacity: 0;
+}
