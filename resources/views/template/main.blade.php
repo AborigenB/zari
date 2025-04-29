@@ -12,7 +12,9 @@
 </head>
 
 <body class="bg-[var(--main-bg-color)]">
-
+    <div class="absolute hidden z-10 px-3 py-2 bg-white rounded-2xl transition duration-500" id="urlCopied">
+        <p class="font-montserrat">Ссылка скопирована!</p>
+    </div>
     @include('includes.header')
     @yield('content')
     @include('includes.footer')

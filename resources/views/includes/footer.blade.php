@@ -3,7 +3,7 @@
         <div class="flex flex-col gap-14 mx-auto w-full pt-10">
             <div class="flex gap-[240px] justify-center">
                 <div class="flex flex-col gap-6">
-                    <img src="assets/img/logo.png" alt="" class="w-[100px]">
+                    <img src="{{asset('assets/img/logo.png')}}" alt="" class="w-[100px]">
                 </div>
                 <div class="flex flex-col gap-6">
                     <a href="index.html" class="text-[#fdf9f9] hover:scale-110">Главня</a>

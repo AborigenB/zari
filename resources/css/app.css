@@ -42,8 +42,38 @@
     --font-nikyousans: 'nikos';
 }
 
-::-webkit-scrollbar{
-    display: none;
+body::-webkit-scrollbar {
+    width: 10px;
+}
+  
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+    border-radius: 10px;
+}
+  
+body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #fbab00, #ea0000);
+}
+
+.setScrollBar::-webkit-scrollbar {
+    width: 10px;
+}
+  
+.setScrollBar::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+    border-radius: 10px;
+}
+  
+.setScrollBar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #fbab00, #ea0000);
+}
+
+*{
+    scroll-behavior: smooth;
 }
 
 .current{
@@ -61,4 +91,9 @@
 .another{
     /* visibility: hidden; */
     opacity: 0;
+}
+/* Добавляем простой стиль для миниатюр */
+
+#art_images_under img:hover {
+    opacity: 1;
 }

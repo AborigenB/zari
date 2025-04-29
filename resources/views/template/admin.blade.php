@@ -13,10 +13,9 @@
     <div class="absolute hidden z-10 px-3 py-2 bg-white rounded-2xl transition duration-500" id="urlCopied">
         <p class="font-montserrat">Ссылка скопирована!</p>
     </div>
+    
     <div class="flex flex-col justify-between min-h-screen">
-        @include('includes.miniHeader')
         @yield('content')
-        @include('includes.footer')
     </div>
 </body>
 </html>

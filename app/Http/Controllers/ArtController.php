@@ -250,4 +250,9 @@ class ArtController extends Controller
 
         return redirect()->route('art.show', $art)->with('success', 'Арт успешно обновлен');
     }
+
+    public function show($id){
+        $art = Art::find($id);
+        return view('pages.arts.show', compact('art'));
+    }
 }

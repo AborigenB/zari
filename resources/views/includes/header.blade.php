@@ -14,7 +14,7 @@
             <div class="max-md:hidden nav flex justify-around items-center text-center rounded-full w-[997px] h-[92px] bg-[#fdf9f9]">
                 <a class="btn__nav text-[20px] font-montserrat text-black" href="{{route('home')}}">Главная</a>
                 <a class="btn__nav text-[20px] font-montserrat text-black" href="{{route('catalog')}}">Каталог</a>
-                <a class="btn__nav text-[20px] font-montserrat text-black" href="?page=painter">Художники</a>
+                <a class="btn__nav text-[20px] font-montserrat text-black" href="{{route('painters')}}">Художники</a>
                 @if (auth()->check())
                     <a class="btn__nav__img font-montserrat" href="{{route('profile.show', auth()->user()->id)}}">
                         <img src="assets/img/account.png" alt="">

@@ -17,13 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'login',
-        'email',
-        'password',
-        'role',
-        'description',
-    ];
+    protected $guarded = [ ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,4 +44,40 @@ class User extends Authenticatable
         return $this->hasMany(UserImage::class);
     }
     
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
+    }
+    
+    public function favoriteArts(){
+        // получение многие к многим
+        return $this->belongsToMany(Art::class, 'favorites', 'user_id', 'art_id');
+    }
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    public function arts(){
+        return $this->hasMany(Art::class);
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
+    }
+    
+    public function profileImage(){
+        // Проверка на существование 
+        if($this->images()->where('position', 'профиль')->exists()){
+            return $this->images()->where('position', 'профиль')->first()->url;
+        } else {
+            return 'profile_images/RCbh8ncI5lss9UiRDPavEn2nj1MhxZMMj5LP7KaU.png';
+        }
+    }
+    public function profileBgImage(){
+        // Проверка на существование 
+        if($this->images()->where('position', 'фон')->exists()){
+            return $this->images()->where('position', 'фон')->first()->url;
+        } else {
+            return 'profile_images/RCbh8ncI5lss9UiRDPavEn2nj1MhxZMMj5LP7KaU.png';
+        }
+    }
 }

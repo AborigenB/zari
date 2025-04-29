@@ -63,4 +63,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // Обработчики событий
     nextBtn.addEventListener('click', () => handleSetActive('next'));
     prevBtn.addEventListener('click', () => handleSetActive('prev'));
+
+
+
+    // Ссылка скопирована
+
 });
+
+function itCopied(event) {
+    // Создание блока с классами 
+
+    let block = document.querySelector('#urlCopied');
+    block.classList.remove('hidden');
+    block.style.top = `${event.pageY + 35}px`;
+    block.style.left = `${event.pageX - 70}px`;
+
+    // После 2 секунд добавляем стиль opacity-0, и через пол секунды добавляем hidden 
+    setTimeout(() => {
+        block.classList.add('opacity-0');
+    }, 1000);
+    setTimeout(() => {
+        block.classList.add('hidden');
+    }, 1500);
+    setTimeout(() => {
+        block.classList.remove('opacity-0');
+    }, 2000);
+
+    console.log(event)
+}

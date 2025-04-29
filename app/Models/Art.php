@@ -15,8 +15,6 @@ class Art extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    
     public function images()
     {
         return $this->hasMany(ArtImages::class);
@@ -35,6 +33,20 @@ class Art extends Model
     {
         return $this->belongsToMany(Tag::class, 'art_tags', 'art_id', 'tag_id');
     }
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+    public function isFavorite(){
+        if(auth()->check()){
+            return $this->favorites()->where('user_id', auth()->user()->id)->exists();
+        } 
+    }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
     // public function comments()
     // {
     //     return $this->hasMany(Comment::class);

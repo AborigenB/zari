@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Art;
+use App\Models\Review;
 use App\Models\Social;
 use App\Models\User;
 use App\Models\UserImage;
@@ -74,24 +75,66 @@ class AuthController extends Controller
     public function showProfile($id)
     {
         $user = User::findOrFail($id);
-        $profileBg = UserImage::where('user_id',$id)->where('position', 'фон')->first();
-        $profileImage = UserImage::where('user_id',$id)->where('position', 'профиль')->first();
+       
         $arts = Art::where('user_id',$id)->get();
-        return view('pages.auth.profile.variants.works', compact('user', 'profileBg', 'profileImage', 'arts'));
+        return view('pages.auth.profile.variants.works', compact('user', 'arts'));
     }
 
-    public function showProfileEdit()
+    public function showProfileEdit($id)
     {
-        $profileBg = UserImage::where('position', 'фон')->first();
-        $profileImage = UserImage::where('position', 'профиль')->first();
-
+        $user = User::findOrFail($id);
+        
         $social_vk = Social::where('user_id',auth()->user()->id)->where('social','vk')->first();
         $social_tg = Social::where('user_id',auth()->user()->id)->where('social','telegram')->first();
         $social_yt = Social::where('user_id',auth()->user()->id)->where('social','youtube')->first();
 
-        return view('pages.auth.profile.crud.edit', compact('profileBg', 'profileImage', 'social_vk', 'social_tg', 'social_yt'));
+        return view('pages.auth.profile.crud.edit', compact( 'social_vk', 'social_tg', 'social_yt'));
     }
 
+    public function showProfileReviews($userId){
+        $user = User::findOrFail($userId);
+
+        $reviews = $user->reviews()->get();
+        // dd($reviews);
+        return view('pages.auth.profile.variants.reviews', compact('user', 'reviews'));
+    }
+
+    public function painters(){
+        // Вывести всех пользователей, которые создали публикацию в таблицу arts
+        $users = User::has('arts')->get();  
+        return view('pages.auth.profile.variants.painters', compact('users'));
+    }
+    
+    public function profileEditData(){
+        $user = Auth::user();
+        return view('pages.auth.profile.crud.uchetka.index', compact('user'));
+    }
+
+    public function showChats($id){
+        $user = User::findOrFail($id);
+        return view('pages.auth.profile.variants.chats', compact('user'));
+    }
+    
+    public function showAdmin(){
+        $users = User::all();
+        $arts = Art::all();
+        $reviews = Review::all();
+        return view('pages.admin.index', compact('users', 'arts', 'reviews'));
+    }
+
+    public function ban($id){
+        $user = User::findOrFail($id);
+        $user->role = 'banned';
+        $user->save();
+        return redirect()->back();
+    }
+    public function unban($id){
+        $user = User::findOrFail($id);
+        $user->role = 'user';
+        $user->save();
+        return redirect()->back();
+    }
+    
     public function updateProfile(Request $request)
     {
         // Валидация запроса

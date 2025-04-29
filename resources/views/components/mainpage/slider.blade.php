@@ -17,7 +17,7 @@
                     transform duration-300 ease-in-out">
                 <div class="card__header relative">
                     {{-- {{dd($art->images[0]->url)}} --}}
-                    <img class="imgcard w-[350px] rounded-[50px] transition-transform duration-300 ease-in-out filter grayscale-100 hover:grayscale-0"
+                    <img class="imgcard w-full max-h-50 object-cover rounded-[50px] transition-transform duration-300 ease-in-out filter grayscale-100 hover:grayscale-0"
                         src="{{ asset('storage/' . $art->images[0]->url) }}" alt="">
                     <a class="pereiti absolute top-[-74px] left-[280px] flex items-center justify-center w-[36px] h-[36px] bg-[#ffffff4d] 
                       backdrop-filter-blur-6 rounded-full transition-transform duration-300 ease-in-out hover:scale-1.1"
