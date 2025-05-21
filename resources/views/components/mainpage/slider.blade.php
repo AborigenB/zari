@@ -6,7 +6,7 @@
     <div class="cards w-fit max-sm:w-full mx-auto relative p-10 flex items-center gap-6 mt-4">
         @foreach ($arts as $index => $art)
             <div
-                class="card max-sm:w-full transition
+                class="card max-sm:w-full w-[400px] transition
                     @if ($index === 0) current 
                     @elseif ($index === 1) next 
                     @elseif ($index === count($arts) - 1) previous 
@@ -19,7 +19,7 @@
                     {{-- {{dd($art->images[0]->url)}} --}}
                     <img class="imgcard w-full max-h-50 object-cover rounded-[50px] transition-transform duration-300 ease-in-out filter grayscale-100 hover:grayscale-0"
                         src="{{ asset('storage/' . $art->images[0]->url) }}" alt="">
-                    <a class="pereiti absolute top-[-74px] left-[280px] flex items-center justify-center w-[36px] h-[36px] bg-[#ffffff4d] 
+                    <a class="pereiti absolute bottom-4 right-4 flex items-center justify-center w-[36px] h-[36px] bg-[#ffffff4d] 
                       backdrop-filter-blur-6 rounded-full transition-transform duration-300 ease-in-out hover:scale-1.1"
                         href="{{ route('art.show', ['id' => $art['id']]) }}">
                         <img src="/assets/img/cartinerrow.png" alt="">
@@ -34,7 +34,7 @@
                     </p>
                 </div>
                 <div
-                    class="card__footer flex items-center justify-center gap-5 w-[200px] h-[40px] bg-[#b9b9b936] backdrop-filter-blur-6 rounded-full transition-transform duration-300 ease-in-out hover:scale-1.1">
+                    class="card__footer flex items-center justify-center gap-5 w-fit h-[40px] bg-[#b9b9b936] backdrop-filter-blur-6 rounded-full transition-transform duration-300 ease-in-out hover:scale-1.1">
                     <a href="#" class="flex items-center gap-20">
                         <div
                             class="w-[20px] h-[20px] bg-[#3D2121] rounded-full transition-transform duration-300 ease-in-out hover:scale-1.1 hover:bg-[#387028]">

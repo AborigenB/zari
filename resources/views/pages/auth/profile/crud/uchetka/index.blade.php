@@ -7,7 +7,7 @@
             <div class="flex flex-col items-center gap-8">
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-24 h-24">
-                        <img class="h-full rounded-full object-cover" src="{{asset('storage/'.$user->profileImage())}}" alt="">
+                        <img class="h-full rounded-full object-cover" src="{{asset($user->profileImage())}}" alt="">
                     </div>
                     <p class="text-xl font-montserrat">{{$user->login}}</p>
                 </div>

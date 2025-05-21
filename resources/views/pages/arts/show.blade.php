@@ -1,5 +1,4 @@
 @extends('template.second')
-
 @section('content')
     <div class="container mx-auto py-19 max-lg:py-4">
         <div class="flex gap-8 max-md:flex-col max-md:items-center">
@@ -7,26 +6,26 @@
             <div class="relative md:w-1/2" id="art_images_box">
                 <!-- Главное изображение -->
                 <div id="art_images_main" class="w-full h-96 overflow-hidden rounded-[50px]">
-                    <img src="{{ asset('storage/' . $art->images[0]->url) }}" alt="" id="art_image_0"
-                        class="w-full h-full object-cover transition-transform duration-500 transform">
+                    <img src="{{ asset('storage/' . $art->images ? $art->images[0]->url : '') }}" alt=""
+                        id="art_image_0" class="w-full h-full object-cover transition-transform duration-500 transform">
                 </div>
-
                 <!-- Кнопки навигации -->
                 <div class="absolute inset-y-1/2 flex items-center w-full justify-between px-4">
-                    <button id="prevButton" class="text-gray-500 hover:text-gray-700 ml-2 bg-[#ffffff8f] rounded-full py-4 px-4 border border-gray-600">
+                    <button id="prevButton"
+                        class="text-gray-500 hover:text-gray-700 ml-2 bg-[#ffffff8f] rounded-full py-4 px-4 border border-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
-                    <button id="nextButton" class="text-gray-500 hover:text-gray-700 mr-2 bg-[#ffffff8f] rounded-full py-4 px-4 border border-gray-600">
+                    <button id="nextButton"
+                        class="text-gray-500 hover:text-gray-700 mr-2 bg-[#ffffff8f] rounded-full py-4 px-4 border border-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                 </div>
-
                 <!-- Миниатюры изображений -->
                 <div id="art_images_under"
                     class="mt-4 flex overflow-x-auto space-x-2 scrollbar-hide transition duration-300">
@@ -52,16 +51,32 @@
                         @endforeach
                     </p>
                 </div>
-
                 <div class="flex flex-col gap-4">
                     <p class="font-noto-serif-kr text-3xl">Цена: {{ $art->price }} ₽</p>
-                    <a href="#"
-                        class="w-fit font-nikyousans bg-[#3D2121] px-12 py-4 text-3xl font-light text-white rounded-[50px]">В
-                        корзину</a>
+                    @if ($art->status == 'Продано')
+                        <button
+                            class="w-fit font-nikyousans bg-[#3D2121] px-12 py-4 text-3xl font-light text-white rounded-[50px]">
+                            <p class="font-noto-serif-kr text-2xl">Продано</p>
+                        </button>
+                    @else
+                        @if (auth()->user()->baskets->where('art_id', $art->id)->first())
+                            <form action="{{ route('art.removeFromBasket', $art->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="w-fit font-nikyousans bg-[#3D2121] px-12 py-4 text-3xl font-light text-white rounded-[50px]">Убрать из корзины</button>
+                            </form>
+                        @else
+                            <form action="{{ route('art.addToBasket', $art->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="w-fit font-nikyousans bg-[#3D2121] px-12 py-4 text-3xl font-light text-white rounded-[50px]">В
+                                    корзину</button>
+                            </form>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
-
         {{-- Описание и тд --}}
         <div class="flex flex-col py-10 gap-10">
             <div class="">
@@ -77,7 +92,8 @@
                     </p>
                 @enderror
                 <div class="flex flex-col lg:gap-5 max-lg:gap-12">
-                    <div class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
+                    <div
+                        class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
                         <label for="" class="text-2xl font-noto-serif-kr lg:w-1/2">Композиция и структура</label>
                         <div class="flex lg:items-center max-lg:items-start flex-wrap gap-3 lg:w-1/2" id="review_item">
                             @for ($i = 0; $i < 10; $i++)
@@ -87,7 +103,8 @@
                             @endfor
                         </div>
                     </div>
-                    <div class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
+                    <div
+                        class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
                         <label for="" class="text-2xl font-noto-serif-kr lg:w-1/2">Цвет и свет</label>
                         <div class="flex lg:items-center max-lg:items-start flex-wrap gap-3 lg:w-1/2" id="review_item">
                             @for ($i = 0; $i < 10; $i++)
@@ -97,7 +114,8 @@
                             @endfor
                         </div>
                     </div>
-                    <div class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
+                    <div
+                        class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
                         <label for="" class="text-2xl font-noto-serif-kr lg:w-1/2">Техника исполнения</label>
                         <div class="flex lg:items-center max-lg:items-start flex-wrap gap-3 lg:w-1/2" id="review_item">
                             @for ($i = 0; $i < 10; $i++)
@@ -107,7 +125,8 @@
                             @endfor
                         </div>
                     </div>
-                    <div class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
+                    <div
+                        class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
                         <label for="" class="text-2xl font-noto-serif-kr lg:w-1/2">Тема и символизм</label>
                         <div class="flex lg:items-center max-lg:items-start flex-wrap gap-3 lg:w-1/2" id="review_item">
                             @for ($i = 0; $i < 10; $i++)
@@ -117,7 +136,8 @@
                             @endfor
                         </div>
                     </div>
-                    <div class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
+                    <div
+                        class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
                         <label for="" class="text-2xl font-noto-serif-kr lg:w-1/2">Эмоциональное воздействие</label>
                         <div class="flex lg:items-center max-lg:items-start flex-wrap gap-3 lg:w-1/2" id="review_item">
                             @for ($i = 0; $i < 5; $i++)
@@ -127,7 +147,8 @@
                             @endfor
                         </div>
                     </div>
-                    <div class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
+                    <div
+                        class="flex max-lg:flex-col lg:gap-12 max-lg:gap-4 lg:items-center max-lg:items-start justify-between">
                         <label for="" class="text-2xl font-noto-serif-kr lg:w-1/2">Оригинальность и
                             инновационность</label>
                         <div class="flex lg:items-center max-lg:items-start flex-wrap gap-3 lg:w-1/2" id="review_item">
@@ -139,7 +160,6 @@
                         </div>
                     </div>
                 </div>
-
                 <form action="{{ route('art.review', $art->id) }}" method="post" class="flex flex-col gap-10">
                     @csrf
                     <div class="flex flex-col gap-5">
@@ -169,7 +189,6 @@
                     <div class="flex gap-10 ml-auto items-center">
                         <div class="flex gap-3">
                             <p class="font-noto-serif-kr text-8xl" id="totalScore">0</p>
-
                             <p class="font-noto-serif-kr text-5xl">/ 50</p>
                         </div>
                         <button class="cursor-pointer" type="submit"><img
@@ -177,32 +196,35 @@
                     </div>
                 </form>
             </div>
-
             <div class="flex flex-col gap-10">
                 <div class="flex justify-between items-center">
                     <h2 class="text-3xl font-noto-serif-kr">Рецензии пользователей</h2>
                     <div class="flex gap-12">
-                        <button class="bg-[#ffffff05] px-6 py-4 rounded-full text-2xl" style='box-shadow: 0px 0px 18.3px rgba(0, 0, 0, 0.25);' id="review_prev"><</button>
-                        <button class="bg-[#ffffff05] px-6 py-4 rounded-full text-2xl" style='box-shadow: 0px 0px 18.3px rgba(0, 0, 0, 0.25);' id="review_next">></button>
+                        <button class="bg-[#ffffff05] px-6 py-4 rounded-full text-2xl"
+                            style='box-shadow: 0px 0px 18.3px rgba(0, 0, 0, 0.25);' id="review_prev">
+                            < </button>
+                                <button class="bg-[#ffffff05] px-6 py-4 rounded-full text-2xl"
+                                    style='box-shadow: 0px 0px 18.3px rgba(0, 0, 0, 0.25);' id="review_next">></button>
                     </div>
                 </div>
-                
                 <div class="flex flex-col" id="review_scroller">
                     @forelse ($art->reviews as $index => $review)
-                        <div class="@if ($index == 0) flex @else hidden @endif flex-col gap-13 bg-[#ffffff23] py-8 px-12 rounded-3xl" style="box-shadow: 14.5282px 20.5104px 85.4599px rgba(0, 0, 0, 0.06)">
+                        <div class="@if ($index == 0) flex @else hidden @endif flex-col gap-13 bg-[#ffffff23] py-8 px-12 rounded-3xl"
+                            style="box-shadow: 14.5282px 20.5104px 85.4599px rgba(0, 0, 0, 0.06)">
                             <div class="flex justify-between max-md:flex-col">
-                                <div class="flex gap-5 items-center max-sm:flex-col">
+                                <a href="{{route('profile.show', $review->user->id)}}" class="flex gap-5 items-center max-sm:flex-col">
                                     <div class="w-24 h-24">
-                                        <img class="object-cover w-full h-full rounded-full" src="{{ asset('storage/' . $review->user->images[0]->url) }}"
-                                            alt="">
+                                        <img class="object-cover w-full h-full rounded-full"
+                                            src="{{ asset($review->user->profileImage()) }}" alt="">
                                     </div>
                                     <div class="flex flex-col gap-5">
                                         <h2 class="font-noto-serif-kr text-3xl">{{ $review->user->login }}</h2>
                                         <p class="font-noto-serif-kr text-2xl">{{ $review->updated_at }}</p>
                                     </div>
-                                </div>
+                                </a>
                                 <div class="flex flex-col gap-2">
-                                    <h2 class="font-noto-serif-kr text-7xl md:ml-auto max-md:mr-auto">{{ $review->getTotalScoreAttribute() }}</h2>
+                                    <h2 class="font-noto-serif-kr text-7xl md:ml-auto max-md:mr-auto">
+                                        {{ $review->getTotalScoreAttribute() }}</h2>
                                     <div class="flex gap-4">
                                         <p class="font-noto-serif-kr text-xl">{{ $review->score1 }}</p>
                                         <p class="font-noto-serif-kr text-xl">{{ $review->score2 }}</p>
@@ -213,10 +235,9 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="flex flex-col gap-8">
                                 <h2 class="font-noto-serif-kr text-3xl">{{ $review->title }}</h2>
-                                <p class="font-noto-serif-kr text-2xl"> {{ $review->description }} </p>
+                                <p class="font-noto-serif-kr text-2xl break-all"> {{ $review->description }} </p>
                             </div>
                         </div>
                     @empty
@@ -226,9 +247,7 @@
             </div>
         </div>
     </div>
-
     <script src="{{ asset('assets/js/review.js') }}" defer></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mainImage = document.getElementById('art_images_main').querySelector('img');
@@ -236,28 +255,23 @@
             const miniatures = document.querySelectorAll('#art_images_under img');
             const prevButton = document.getElementById('prevButton');
             const nextButton = document.getElementById('nextButton');
-
             let currentIndex = 0;
-
             // Функция для установки текущего изображения
             function setCurrentImage(index) {
                 currentIndex = index;
                 mainImage.src = miniatures[currentIndex].src;
                 mainImage.alt = miniatures[currentIndex].alt;
-
                 // Подсветка текущей миниатюры
                 miniatures.forEach((miniature, idx) => {
                     miniature.classList.toggle('opacity-100', idx === currentIndex);
                 });
             }
-
             // Обработчик кликов по миниатюрам
             miniatures.forEach((miniature, index) => {
                 miniature.addEventListener('click', () => {
                     setCurrentImage(index);
                 });
             });
-
             // Обработчик кнопок "Предыдущее" и "Следующее"
             prevButton.addEventListener('click', () => {
                 if (currentIndex > 0) {
@@ -267,7 +281,6 @@
                     left: -miniatures[0].offsetWidth
                 })
             });
-
             nextButton.addEventListener('click', () => {
                 if (currentIndex < miniatures.length - 1) {
                     setCurrentImage(currentIndex + 1);
@@ -276,30 +289,27 @@
                     left: miniatures[0].offsetWidth
                 })
             });
-
             // Инициализация
             setCurrentImage(0);
-
             const reviewsSlider = document.querySelector('#review_scroller');
             console.log(reviewsSlider.children.length)
             let index = 0;
-
-            document.querySelector('#review_prev').addEventListener('click', ()=>{
-                if(index > 0){
-                    changeReview(index-=1)
+            document.querySelector('#review_prev').addEventListener('click', () => {
+                if (index > 0) {
+                    changeReview(index -= 1)
                 }
             })
-            document.querySelector('#review_next').addEventListener('click', ()=>{
-                if(index < reviewsSlider.children.length-1){
-                    changeReview(index+=1)
+            document.querySelector('#review_next').addEventListener('click', () => {
+                if (index < reviewsSlider.children.length - 1) {
+                    changeReview(index += 1)
                 }
             })
 
-            function changeReview(index){
-                [...reviewsSlider.children].forEach((slide, slideIndex)=>{
+            function changeReview(index) {
+                [...reviewsSlider.children].forEach((slide, slideIndex) => {
                     slide.classList.remove('flex');
                     slide.classList.add('hidden');
-                    if(slideIndex == index){
+                    if (slideIndex == index) {
                         slide.classList.add('flex');
                         slide.classList.remove('hidden');
                     }

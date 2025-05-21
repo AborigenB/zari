@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('url');
+            $table->enum('position', ['фон', 'профиль']);
             $table->timestamps();
         });
     }

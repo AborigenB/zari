@@ -25,7 +25,7 @@
                         </a>
                     </div>
                     <div class="flex justify-between">
-                        <div class="flex gap-5 items-center">
+                        <a href="{{route('profile.show', $review->user->id)}}" class="flex gap-5 items-center">
                             <div class="w-24 h-24">
                                 <img class="object-cover w-full h-full rounded-full"
                                     src="{{ asset('storage/' . $review->user->images[0]->url) }}" alt="">
@@ -34,7 +34,7 @@
                                 <h2 class="font-noto-serif-kr text-3xl">{{ $review->user->login }}</h2>
                                 <p class="font-noto-serif-kr text-2xl">{{ $review->updated_at }}</p>
                             </div>
-                        </div>
+                        </a>
                         <div class="flex flex-col gap-2">
                             <h2 class="font-noto-serif-kr text-7xl ml-auto">{{ $review->getTotalScoreAttribute() }}</h2>
                             <div class="flex gap-4">

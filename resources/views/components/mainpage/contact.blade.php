@@ -13,7 +13,7 @@
             mx-auto max-w-[80%]">
 
             <!-- Контактная информация -->
-            <div class="contact__soccetis flex-1 flex flex-col gap-8">
+            <div class="contact__soccetis flex-1 flex flex-col gap-8 items-center">
                 <div class="contact__socceti flex items-center gap-4">
                     <h3 class="text-2xl font-black text-orange-800">Email: </h3>
                     <p class="text-2xl text-orange-800 font-montserrat">info@zarya.com</p>
@@ -35,33 +35,74 @@
             </div>
 
             <!-- Форма -->
-            <div class="contact__form flex-1 flex flex-col gap-6">
+            <form class="contact__form flex-1 flex flex-col gap-6" action="{{ route('send.question') }}"
+                id="contactForm" method="POST">
+                @csrf
                 <input
                     class="contact__form__inp px-6 py-4 text-center text-2xl 
-                    bg-white/10 border border-white/20 rounded-full 
-                    shadow-[26px_34px_18.3px_rgba(0,0,0,0.25)] 
-                    backdrop-blur-md 
-                    placeholder:text-gray-400 
-                    focus:outline-none focus:border-orange-600 transition"
-                    type="text" placeholder="Telegram/Email" />
+                        bg-white/10 border border-white/20 rounded-full 
+                        shadow-[26px_34px_18.3px_rgba(0,0,0,0.25)] 
+                        backdrop-blur-md 
+                        placeholder:text-gray-400 
+                        focus:outline-none focus:border-orange-600 transition"
+                    type="text" name="contact_info" placeholder="Telegram/Email" required />
 
                 <input
                     class="contact__form__inp px-6 py-4 text-center text-2xl 
-                    bg-white/10 border border-white/20 rounded-full 
-                    shadow-[26px_34px_18.3px_rgba(0,0,0,0.25)] 
-                    backdrop-blur-md 
-                    placeholder:text-gray-400 
-                    focus:outline-none focus:border-orange-600 transition"
-                    type="text" placeholder="Вопрос" />
+                        bg-white/10 border border-white/20 rounded-full 
+                        shadow-[26px_34px_18.3px_rgba(0,0,0,0.25)] 
+                        backdrop-blur-md 
+                        placeholder:text-gray-400 
+                        focus:outline-none focus:border-orange-600 transition"
+                    type="text" name="question" placeholder="Вопрос" required />
 
                 <button
                     class="contact__form__btn px-6 py-4 text-center text-white text-2xl 
-                    bg-orange-800 border border-orange-800/50 rounded-full 
-                    shadow-[26px_34px_18.3px_rgba(0,0,0,0.25)] 
-                    backdrop-blur-md 
-                    transition duration-300 hover:bg-orange-700 hover:scale-95"
-                    type="button">Отправить</button>
-            </div>
+                        bg-orange-800 border border-orange-800/50 rounded-full 
+                        shadow-[26px_34px_18.3px_rgba(0,0,0,0.25)] 
+                        backdrop-blur-md 
+                        transition duration-300 hover:bg-orange-700 hover:scale-95"
+                    type="submit">Отправить</button>
+            </form>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.getElementById('contactForm');
+                    const responseMessage = document.getElementById('responseMessage');
+
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+                        const formData = new FormData(form);
+
+                        fetch('{{ route('send.question') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.message) {
+                                    responseMessage.innerHTML = `<p class="px-8 py-4 rounded-xl bg-green-700 text-white transition duration-300">${data.message}</p>`;
+                                    // устанавливаем класс hidden через 3 секунды
+                                    responseMessage.classList.remove('hidden');
+                                    setTimeout(() => {
+                                        responseMessage.classList.add('hidden');
+                                    }, 3000);
+
+                                    form.reset(); // Очищаем форму после успешной отправки
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Ошибка:', error);
+                                responseMessage.innerHTML =
+                                    `<p class="px-8 py-4 rounded-xl bg-red-700 text-white">Произошла ошибка при отправке формы.</p>`;
+                            });
+                    });
+                });
+            </script>
         </div>
 
         <!-- Фоновые изображения -->

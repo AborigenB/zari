@@ -6,7 +6,7 @@
         <div class="w-full relative">
             <label for="backgroundImageInput" class="w-full">
                 <img id="backgroundImage"
-                src="{{ asset('storage/' . (auth()->user()->images()->where('position', 'фон')->first()->url ?? 'default.jpg')) }}"
+                src="{{ asset( auth()->user()->profileBgImage())}}"
                 alt="Background Image" class="w-full h-70 rounded-4xl object-cover">
             </label>
             <input hidden type="file" name="background_image" id="backgroundImageInput" accept="image/*"
@@ -15,7 +15,7 @@
             <div class="w-24 absolute -bottom-15 left-20">
                 <label for="profileImageInput" class="w-full flex justify-center items-center">
                     <img id="profileImage"
-                        src="{{ asset('storage/' . (auth()->user()->images()->where('position', 'профиль')->first()->url ?? 'default.jpg')) }}"
+                        src="{{ asset(auth()->user()->profileImage()) }}"
                         alt="Profile Image" class="w-24 h-24 rounded-full object-cover border-[#ffffff50] border">
                         <img src="{{asset('assets/img/camera.png')}}" alt="" class="absolute w-16">
                 </label>
@@ -83,7 +83,10 @@
 
             fetch('{{ route('profile.update') }}', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'accept': 'application/json',
+                    }
                 })
                 .then(response => response.json())
                 .then(data => {

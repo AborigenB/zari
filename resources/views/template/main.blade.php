@@ -15,9 +15,25 @@
     <div class="absolute hidden z-10 px-3 py-2 bg-white rounded-2xl transition duration-500" id="urlCopied">
         <p class="font-montserrat">Ссылка скопирована!</p>
     </div>
+    @session('success')
+        <div class="fixed z-50 bottom-3 right-3">
+            <div class="px-8 py-4 rounded-xl bg-green-700 text-white">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endsession
+    @session('error')
+        <div class="fixed z-50 bottom-3 right-3">
+            <div class="px-8 py-4 rounded-xl bg-red-700 text-white">
+                {{ session('error') }}
+            </div>
+        </div>
+    @endsession
     @include('includes.header')
     @yield('content')
     @include('includes.footer')
+
+    <div id="image-container" class="absolute inset-0 -z-10"></div>
 
 </body>
 

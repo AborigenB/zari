@@ -91,3 +91,104 @@ function itCopied(event) {
 
     console.log(event)
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const favoriteButtons = document.querySelectorAll('.favorite-button');
+
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+
+            const artId = this.getAttribute('data-art-id');
+            const heartIcon = this.querySelector('.heart-icon');
+
+            fetch(`/art/${artId}/changeFavorite`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.isFavorite) {
+                            heartIcon.setAttribute('fill','#B02F00')
+                        } else {
+                            heartIcon.setAttribute('fill','black')
+                        }
+                        showNotification(data.message, 'success');
+                    } else {
+                        showNotification('Произошла ошибка при изменении состояния избранного.', 'error');
+                    }
+                })
+                .catch(error => {
+                    showNotification('Произошла ошибка при изменении состояния избранного.', 'error');
+                });
+        });
+    });
+});
+
+function showNotification(message, type) {
+    const notificationContainer = document.createElement('div');
+    notificationContainer.classList.add('notification', type);
+
+    const notificationContent = document.createElement('div');
+    notificationContent.classList.add('px-8', 'py-4', 'rounded-xl', 'text-white');
+    notificationContent.textContent = message;
+
+    notificationContainer.appendChild(notificationContent);
+    document.body.appendChild(notificationContainer);
+
+    setTimeout(() => {
+        notificationContainer.classList.add('show');
+    }, 10);
+
+    setTimeout(() => {
+        notificationContainer.classList.remove('show');
+        setTimeout(() => {
+            notificationContainer.remove();
+        }, 300);
+    }, 3000);
+}
+
+// кляксоризатор
+document.addEventListener("DOMContentLoaded", function() {
+    const imageContainer = document.getElementById('image-container');
+    const images = [
+        { src: window.location.protocol + "//" + window.location.host+"/assets/img/BlackKlyksa.png" },
+        { src: window.location.protocol + "//" + window.location.host+"/assets/img/colorklaksa.png" },
+        { src: window.location.protocol + "//" + window.location.host+"/assets/img/colorklaksa2.png" },
+        { src: window.location.protocol + "//" + window.location.host+"/assets/img/colorklaksa3.png" },
+        { src: window.location.protocol + "//" + window.location.host+"/assets/img/colorklaksa4.png" }
+    ];
+    function placeImages() {
+        const fullHeight = document.documentElement.scrollHeight;
+        const fullWidth = window.innerWidth;
+        console.log(fullWidth)
+        const numImages = Math.ceil(fullHeight / 1000); // Количество изображений зависит от высоты страницы
+
+        imageContainer.innerHTML = ''; // Очистка предыдущих изображений
+
+        for (let i = 0; i < numImages; i++) {
+            const img = document.createElement('img');
+            img.className = 'image-item';
+            img.src = images[i % images.length].src;
+
+            // Расчет случайных позиций
+            const x = Math.random() * (fullWidth - 500);
+            const y = Math.random() * (fullHeight - 500);
+
+            img.style.left = `${x}px`;
+            img.style.top = `${y}px`;
+
+            imageContainer.appendChild(img);
+        }
+    }
+
+    // Перерасположение изображений при изменении размера окна
+    window.addEventListener('resize', placeImages);
+
+    // Инициализация размещения изображений при загрузке страницы
+    placeImages();
+});

@@ -22,7 +22,8 @@
 
 /* Базовые стили для позиционирования */
 .contact-img-1 {
-    position: relative; /* Для корректного позиционирования children */
+    position: relative;
+    /* Для корректного позиционирования children */
 }
 
 .contact-img-2 {
@@ -31,13 +32,15 @@
 
 /* Настройка анимации */
 .contact-image {
-    transition-property: transform !important; /* !important для перебора других стилей */
+    transition-property: transform !important;
+    /* !important для перебора других стилей */
     transition-duration: 2000ms;
     transition-timing-function: ease-out;
 }
 
 .regist {
-    background: url('img/regbg.jpg'); /* Замените на путь к изображению */
+    background: url('img/regbg.jpg');
+    /* Замените на путь к изображению */
     background-size: cover;
     background-repeat: no-repeat;
     filter: grayscale(100%);
@@ -47,4 +50,79 @@
 
 .regist:hover {
     filter: grayscale(0%);
+}
+
+.notification {
+    position: fixed;
+    z-index: 50;
+    bottom: 3rem;
+    right: 3rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.success {
+    background-color: #22c55e;
+    /* Green */
+}
+
+.notification.error {
+    background-color: #ef4444;
+    /* Red */
+}
+
+/* Анимация для выезжания из левой стороны */
+@keyframes fadeInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Анимация для выезжания из правой стороны */
+@keyframes fadeInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-fade-in-from-left {
+    animation: fadeInFromLeft 1s ease-out forwards;
+}
+
+.animate-fade-in-from-right {
+    animation: fadeInFromRight 1s ease-out forwards;
+}
+
+/* кляксы */
+#image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Чтобы изображения не мешали взаимодействию с другими элементами */
+}
+
+.image-item {
+    position: absolute;
+    width: 500px; /* Размер изображения */
+    height: 500px; /* Размер изображения */
+    opacity: 0.5; /* Прозрачность изображений */
+    transition: transform 0.5s ease, opacity 0.5s ease;
 }

@@ -3,7 +3,7 @@
         style="background:url({{ asset('assets/img/Onasbg.png') }}) no-repeat; background-size: cover;">
 
         <div class="relative w-fit bg-[var(--main-bg-color)] ml-auto rounded-bl-[34px]">
-            <h2 class="font-unbounded md:text-4xl font-bold text-6xl tracking-wide text-[#B02F00] px-20 py-8">
+            <h2 class="font-unbounded text-5xl font-bold tracking-wide text-[#B02F00] px-20 py-8">
                 О нас</h2>
 
             <div

@@ -37,14 +37,24 @@ class Art extends Model
     {
         return $this->hasMany(Favorite::class);
     }
-    public function isFavorite(){
-        if(auth()->check()){
+    public function isFavorite()
+    {
+        if (auth()->check()) {
             return $this->favorites()->where('user_id', auth()->user()->id)->exists();
-        } 
+        }
+    }
+    // public function isFavorite()
+    // {
+    //     return Favorite::where('user_id', auth()->user()->id)->where('art_id', $this->id)->exists();
+    // }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class);
+    public function baskets()
+    {
+        return $this->hasMany(Basket::class);
     }
 
     // public function comments()
@@ -72,5 +82,5 @@ class Art extends Model
     //     return $this->hasMany(Share::class);
     // }
 
-    
+
 }

@@ -4,23 +4,22 @@
     <div class="container mx-auto md:-mt-15">
         <div class="bg-[#ffffff25] ml-auto flex gap-12 items-center px-4 py-2 w-max rounded-[50px] border border-[#ffffff50] backdrop-blur-sm"
             style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
-            <a href="" class="text-2xl font-montserrat">← Назад</a>
+            <a href="" onclick="window.history.go(-1); return false;" class="text-2xl font-montserrat">← Назад</a>
             <div class="flex gap-4 items-center">
                 <div class="flex flex-col gap-2">
                     <h2 class="text-2xl font-montserrat">{{ $user->login }}</h2>
-                    <p class="font-montserrat">В сети не в сети</p>
+                    {{-- <p class="font-montserrat">В сети не в сети</p> --}}
                 </div>
-                <img class="object-cover w-16 h-16 rounded-full" src="{{ asset('storage/' . $user->profileImage()) }}"
-                    alt="">
+                <img class="object-cover w-16 h-16 rounded-full" src="{{ asset($user->profileImage()) }}" alt="">
 
             </div>
         </div>
     </div>
     <div class="container mx-auto py-18">
-        <div class="bg-[#ffffff25] rounded-[50px] py-8 border border-[#ffffff50] backdrop-blur-sm"
+        <div class="bg-[#ffffff25] min-h-screen flex flex-col justify-between rounded-[50px] py-8 border border-[#ffffff50] backdrop-blur-sm"
             style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
-            <div class="py-4 px-8 overflow-y-scroll max-h-screen setScrollBar flex flex-col gap-3" id="messages">
-                @foreach ($messages as $message)
+            <div class="py-4 flex-1 px-8 overflow-y-scroll max-h-screen setScrollBar flex flex-col gap-3" id="messages">
+                @forelse ($messages as $message)
                     @if ($message->sender_id == auth()->user()->id)
                         <div class="bg-[#FF590025] px-4 py-2 ml-auto w-max rounded-[50px] border border-[#ffffff50] backdrop-blur-sm"
                             style="box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
@@ -36,7 +35,13 @@
                             </p>
                         </div>
                     @endif
-                @endforeach
+                @empty
+                    <div class="" id="not-messages">
+                        <p class="text-center text-3xl">Сообщений нет</p>
+                        <p class="text-center text-xl">Начните беседу первым</p>
+                    </div>
+                @endforelse
+
             </div>
 
             <form class="flex px-8 justify-between items-center gap-4" id="message_form">
@@ -71,6 +76,7 @@
                 .then(response => response.json())
                 .then(message => {
                     const messagesContainer = document.getElementById('messages');
+                    const notMsg = document.getElementById('not-messages');
                     const block = document.createElement('div');
                     const p = document.createElement('p');
 
@@ -79,7 +85,7 @@
                         'border',
                         'border-[#ffffff50]', 'backdrop-blur-sm');
                     p.classList.add('font-montserrat', 'text-xl');
-
+                    notMsg.classList.add('hidden')
                     p.innerText = message.content;
                     block.appendChild(p);
                     messagesContainer.appendChild(block);

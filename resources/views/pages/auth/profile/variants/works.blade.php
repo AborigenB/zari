@@ -9,21 +9,44 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-10">
             @foreach ($arts as $art)
-                <div class="group relative bg-white/20 border border-gray-200 rounded-[42px] p-3 overflow-hidden shadow-sm">
-                    <div class="relative aspect-w-1 aspect-h-1">
+                <div
+                    class="group flex flex-col relative bg-white/20 border border-gray-200 rounded-[42px] p-3 overflow-hidden shadow-sm">
+                    <div class="relative flex-1 aspect-w-1 aspect-h-1">
                         <img src="{{ asset('storage/' . $art->images[0]->url) }}" alt="{{ $art->title }}"
                             {{-- style="filter: grayscale(100%);" --}}
-                            class="w-full h-full max-h-[600px] object-cover transition duration-500 grayscale-100 group-hover:grayscale-0 rounded-[42px]">
+                            class="w-full h-full max-h-[400px] object-cover transition duration-500 grayscale-100 group-hover:grayscale-0 rounded-[42px]">
                         @if ($art->status == 'Продано')
                             <div
                                 class="absolute z-10 top-2 left-2 bg-[rgba(255,255,255,0.3)]
-                border-[0.854599px]
-                border-[rgba(255,255,255,0.47)]
-                shadow-[14.5282px_20.5104px_85.4599px_rgba(0,0,0,0.06)]
-                backdrop-blur-[10px]
-                rounded-[42.73px]
-                px-3 py-1.5">
+                                        border-[0.854599px]
+                                        border-[rgba(255,255,255,0.47)]
+                                        shadow-[14.5282px_20.5104px_85.4599px_rgba(0,0,0,0.06)]
+                                        backdrop-blur-[10px]
+                                        rounded-[42.73px]
+                                        px-3 py-1.5">
                                 <p class="text-white font-montserrat">Продано</p>
+                            </div>
+                        @elseif ($art->status == 'Не опубликовано')
+                            <div
+                                class="absolute z-10 top-2 left-2 bg-[rgba(255,255,255,0.3)]
+                                        border-[0.854599px]
+                                        border-[rgba(255,255,255,0.47)]
+                                        shadow-[14.5282px_20.5104px_85.4599px_rgba(0,0,0,0.06)]
+                                        backdrop-blur-[10px]
+                                        rounded-[42.73px]
+                                        px-3 py-1.5">
+                                <p class="text-red-400 font-montserrat">Не опубликован</p>
+                            </div>
+                        @elseif ($art->status == 'Опубликован')
+                            <div
+                                class="absolute z-10 top-2 left-2 bg-[rgba(255,255,255,0.3)]
+                                        border-[0.854599px]
+                                        border-[rgba(255,255,255,0.47)]
+                                        shadow-[14.5282px_20.5104px_85.4599px_rgba(0,0,0,0.06)]
+                                        backdrop-blur-[10px]
+                                        rounded-[42.73px]
+                                        px-3 py-1.5">
+                                <p class="text-green-400 font-montserrat">Опубликован</p>
                             </div>
                         @endif
 
@@ -39,13 +62,14 @@
                         </div>
 
                         <div class="absolute bottom-4 right-4 flex gap-2">
-                            <a href="{{ route('art.favorite', $art->id) }}" class="rounded-full p-2 bg-white flex">
+                            <a href="#" class="rounded-full p-2 bg-white flex favorite-button"
+                                data-art-id="{{ $art->id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="25" viewBox="0 0 31 29"
                                     fill="none">
                                     <path
                                         d="M22.5 0C18.5 0 15.5 3.5 15.5 3.5C15.5 3.5 12 0 8.5 0C5 0 0 1.5 0 8.5C0 15.5 12.5 28.5 15.5 28.5C18.5 28.5 31 15 31 8.5C31 2 26.5 0 22.5 0Z"
                                         fill="{{ $art->isFavorite() ? '#B02F00' : 'black' }}"
-                                        class="hover:fill-[red] duration-500" />
+                                        class="hover:fill-[red] duration-500 heart-icon" />
                                 </svg>
                             </a>
                             <button

@@ -42,6 +42,10 @@
     --font-nikyousans: 'nikos';
 }
 
+.scrollbar-hide::-webkit-scrollbar{
+    display: none;
+}
+
 body::-webkit-scrollbar {
     width: 10px;
 }

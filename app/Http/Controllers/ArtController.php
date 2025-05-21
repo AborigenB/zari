@@ -7,6 +7,7 @@ use App\Models\ArtImages;
 use App\Models\ArtMaterial;
 use App\Models\ArtStyle;
 use App\Models\ArtTag;
+use App\Models\Favorite;
 use App\Models\Material;
 use App\Models\Style;
 use App\Models\Tag;
@@ -102,6 +103,16 @@ class ArtController extends Controller
 
     public function likeArt($id){
         // Нужно создать функцию, для обработки добавления в избранное после fetch
+        $favorite = Favorite::where('user_id', auth()->user()->id)->where('art_id', $id)->first();
+
+        if($favorite){
+            $favorite->delete();
+        } else {            
+            Favorite::create([
+                'user_id'=>auth()->user()->id,
+                'art_id'=>$id,
+            ]);
+        }
         
         return response()->json(['success' => true]);
     }
@@ -168,7 +179,7 @@ class ArtController extends Controller
             }
         }
 
-        return redirect()->route('catalog');
+        return redirect()->route('catalog')->with('success', 'Арт успешно создано');
     }
 
     public function edit($id)
@@ -254,5 +265,11 @@ class ArtController extends Controller
     public function show($id){
         $art = Art::find($id);
         return view('pages.arts.show', compact('art'));
+    }
+
+    public function destroy($id){
+        $art = Art::find($id);
+        $art->delete();
+        return redirect()->back()->with('success', 'Арт успешно удален');
     }
 }

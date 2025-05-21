@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->decimal('total_price', 8, 2)->nullable(); 
-            $table->enum('status', ['Обрабатывается','Принят', 'Отклонён'])->default('Обрабатывается');
+            $table->string('contact_info'); // Поле для Telegram или Email
+            $table->text('question');       // Поле для вопроса
+            $table->enum('status', ['Новый', 'В процессе', 'Закрыт'])->default('Новый');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('questions');
     }
 };

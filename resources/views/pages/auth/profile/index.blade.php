@@ -4,14 +4,14 @@
     <div class="container flex flex-col gap-4 mx-auto my-20">
         <div class="">
             <div class="w-full">
-                <img src="{{ asset('storage/' . $user->profileBgImage()) }}" class="w-full h-140 rounded-4xl object-cover"
+                <img src="{{ asset($user->profileBgImage()) }}" class="w-full h-140 rounded-4xl object-cover"
                     alt="Фон профиля">
             </div>
             <div class="flex relative">
                 {{-- <div class="relative w-80"> --}}
                 <div class="absolute -top-20 left-10 xl:left-20">
                     <img class="w-40 h-40 object-cover rounded-full border border-white"
-                        src="{{ asset('storage/' . $user->profileImage()) }}" alt="Фото профиля">
+                        src="{{ asset($user->profileImage()) }}" alt="Фото профиля">
                 </div>
                 {{-- </div> --}}
 
@@ -48,12 +48,30 @@
         </div>
         <div class="w-full shadow-xl px-5 py-2.5 rounded-2xl flex gap-8 bg-[#ffffff28] items-center">
             @if (auth()->user()->id == $user->id)
-                <a href="{{ route('profile.show', auth()->user()->id) }}" class="font-noto-serif-kr text-xl">Мои работы</a>
+                <a href="{{ route('profile.show', auth()->user()->id) }}"
+                    class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.show') ? 'bg-[#3D2121] text-white' : '' }}">Мои
+                    работы</a>
             @else
-                <a href="{{ route('profile.show', $user->id) }}" class="font-noto-serif-kr text-xl">Работы</a>
+                <a href="{{ route('profile.show', $user->id) }}"
+                    class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.show') ? 'bg-[#3D2121] text-white' : '' }}">Работы</a>
             @endif
-            <a href="{{ route('profile.favorite', $user->id) }}" class="font-noto-serif-kr text-xl">Избранное</a>
-            <a href="{{ route('profile.review', $user->id) }}" class="font-noto-serif-kr text-xl">Рецензии</a>
+            <a href="{{ route('profile.favorite', $user->id) }}"
+                class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.favorite') ? 'bg-[#3D2121] text-white' : '' }}">Избранное</a>
+
+            @if (auth()->user()->id == $user->id)
+                <a href="{{ route('profile.basket', $user->id) }}"
+                    class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.basket') ? 'bg-[#3D2121] text-white' : '' }}">Корзина</a>
+                <a href="{{ route('profile.orders', $user->id) }}"
+                    class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.orders') ? 'bg-[#3D2121] text-white' : '' }}">Заказы</a>
+            @endif
+            <a href="{{ route('profile.review', $user->id) }}"
+                class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.review') ? 'bg-[#3D2121] text-white' : '' }}">Рецензии</a>
+            <a href="{{ route('profile.socials', $user->id) }}"
+                class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.socials') ? 'bg-[#3D2121] text-white' : '' }}">Соц-сети</a>
+            @if (auth()->user()->id == $user->id)
+                <a href="{{ route('profile.chats', $user->id) }}"
+                    class="font-noto-serif-kr text-xl px-4 p-2 rounded-full {{ Route::is('profile.chats') ? 'bg-[#3D2121] text-white' : '' }}">Чаты</a>
+            @endif
             {{-- <a href="{{route('profile.chats', $user->id)}}" class="font-noto-serif-kr text-xl">Чаты</a> --}}
             @if (auth()->user()->id != $user->id)
                 <a href="{{ route('profile.chat', $user->id) }}" class="ml-auto bg-[#B02F00] rounded-4xl px-8 py-2">

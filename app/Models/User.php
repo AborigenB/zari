@@ -63,21 +63,23 @@ class User extends Authenticatable
     public function messages(){
         return $this->hasMany(Message::class);
     }
-    
+    public function baskets(){
+        return $this->hasMany(Basket::class);
+    }
     public function profileImage(){
         // Проверка на существование 
         if($this->images()->where('position', 'профиль')->exists()){
-            return $this->images()->where('position', 'профиль')->first()->url;
+            return 'storage/'.$this->images()->where('position', 'профиль')->first()->url;
         } else {
-            return 'profile_images/RCbh8ncI5lss9UiRDPavEn2nj1MhxZMMj5LP7KaU.png';
+            return asset('assets/img/Empty.png');
         }
     }
     public function profileBgImage(){
         // Проверка на существование 
         if($this->images()->where('position', 'фон')->exists()){
-            return $this->images()->where('position', 'фон')->first()->url;
+            return 'storage/'.$this->images()->where('position', 'фон')->first()->url;
         } else {
-            return 'profile_images/RCbh8ncI5lss9UiRDPavEn2nj1MhxZMMj5LP7KaU.png';
+            return asset('assets/img/Empty.png');
         }
     }
 }
